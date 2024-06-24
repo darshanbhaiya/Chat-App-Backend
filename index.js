@@ -27,18 +27,13 @@ app.get('/',(request,response)=>{
 app.use('/api',router)
 
 
-// Handle CORS headers manually if needed
-app.use((req, res, next) => {
-    res.header("access-control-allow-origin", "*");
-    res.header("access-control-allow-origin", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("access-control-allow-origin", "GET,PUT,POST,DELETE,PATCH,OPTIONS");
-    res.header("access-control-allow-origin", true);
-    if (req.method === 'OPTIONS') {
-        res.sendStatus(200);
-    } else {
-        next();
-    }
-});
+app.use(function (req, res, next) {
+    //Enabling CORS
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization");
+    next();
+    });
 
 
 
