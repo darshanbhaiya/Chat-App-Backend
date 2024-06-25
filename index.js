@@ -8,7 +8,7 @@ const { app, server } = require('./socket/index');
 
 dotenv.config();
 
-const allowedOrigins = ['https://moonlit-conkies-722532.netlify.app'];
+const allowedOrigins = process.env.FRONTEND_URL;
 
 app.use(cors({
     origin: function (origin, callback) {
