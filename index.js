@@ -8,11 +8,21 @@ const { app, server } = require('./socket/index');
 
 dotenv.config();
 
+const allowedOrigins = ['https://moonlit-conkies-722532.netlify.app'];
+
 app.use(cors({
-    origin:"*",
+    origin: function (origin, callback) {
+        // Allow requests with no origin, like mobile apps or curl requests
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not allow access from the specified origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    },
     credentials: true,
-    methods: "*",
-    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization','x-client-key','x-client-token', 'x-client-secret'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'x-client-key', 'x-client-token', 'x-client-secret'],
 }));
 
 app.use(express.json());
